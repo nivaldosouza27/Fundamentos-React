@@ -52,19 +52,16 @@
     height: 50px;
     padding: 0 1.5rem;
     font-weight: bold;
-    display: block;
+    /* display: block; */
     text-decoration: none;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     gap: 0.45rem;
-
     transition: color 0.1s, background-color 0.1s;
 }
 
 .sidebar footer a:hover {
-    background:  var(--green-500);
+    background:  var(--green-600);
     color: var(--white);
 }
