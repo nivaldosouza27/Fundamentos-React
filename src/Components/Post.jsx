@@ -1,28 +1,76 @@
+import {format, formatDistanceToNow} from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
+import { Avatar } from './Avatar'
+import { Comment } from './Comment'
 import styles from './Post.module.css'
+import { useState } from 'react'
 
-export function Post() {
+
+export function Post({author, publishedAt, content}) {
+    const [comments, setComments] = useState([
+        'Post muito bacana hein!'
+    ])
+
+    const publishedDateFormated = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {locale: ptBR} )
+    
+    const publishedDateRelativetoNow = formatDistanceToNow(publishedAt, {
+        locale: ptBR,
+        addSuffix: true
+    })
+
+    function handleCreateNewComment() {
+        event.preventDefault()
+
+        const newCommentText = event.target.inputText.value
+
+        setComments([...comments, newCommentText ])
+
+        event.target.inputText.value = ''
+
+    }
+
     return (
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                    <img className= {styles.avatar} src="https://github.com/nivaldosouza27.png"/>
+                    <Avatar src={author.avatarUrl} />
                     <div className={styles.authorInfo}>
-                        <strong> Nivaldo Souza</strong>
-                        <span>Web Developer Back-End</span>
+                        <strong> {author.name}</strong>
+                        <span>{author.role}</span>
                     </div>
                 </div>
-                <time title='27 de Maio ás 22:00h' datetime="2024-05-27 22:00:30"> Publicado há 1h </time>
+                <time title= {publishedDateFormated} datetime={publishedAt.toISOString()}> 
+                    {publishedDateRelativetoNow}
+                </time>
             </header>
             <div className={styles.content}>
-                <p>Fala galeraa 👋</p>
+               {content.map(line => {
+                    if (line.type === 'paragraph') {
+                        return <p>{line.content}</p>
+                    }else if (line.type === 'paragraph'){
+                        return <p><a href="#">{line.content}</a></p>;
+                    }
+               })}
+            </div>
 
-                <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da        Rocketseat. O nome do projeto é DoctorCare 🚀</p>
+            <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
+                <strong> Deixe seu Feedback </strong>
 
-                <p>👉 <a href="#">nivaldosouza/doctorcare</a></p>
+                <textarea
+                    name="inputText"
+                    placeholder='Deixe um comentário'
+                />
 
-                <p><a href="#"> #novoprojeto </a>
-                <a href="#"> #nlw </a>
-                <a href="#"> #rocketseat </a></p>
+                <footer>
+                    <button className={styles.buttonForm} type='submit'> Publicar </button>
+                </footer>
+
+            </form>
+
+            <div className={styles.commentList}>
+                {comments.map (comment => {
+                    return <Comment content={comment}/>
+                })}
             </div>
         </article>
     )
