@@ -15,7 +15,7 @@ const posts = [
     content: [
       {type: 'paragraph', content: 'Fala galeraa 👋'},
       {type: 'paragraph', content: ' Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀'},
-      {type: 'paragraph', content: '👉  nivaldosouza/doctorcare'},
+      {type: 'link', content: '👉  nivaldosouza/doctorcare'},
     ],
     publishedAt: new Date('2024-05-03 20:00:00')
   },
@@ -49,7 +49,8 @@ export function App() {
         <main>
           {posts.map(post => {
             return (
-              <Post 
+              <Post
+                key={post.id} 
                 author={post.author}
                 content = {post.content}
                 publishedAt = {post.publishedAt}
