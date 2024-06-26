@@ -1,15 +1,13 @@
 import { format, formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+import { useState } from 'react'
 import { Avatar } from './Avatar'
 import { Comment } from './Comment'
 import styles from './Post.module.css'
-import { useState } from 'react'
 
 
 export function Post({ author, publishedAt, content }) {
-  const [comments, setComments] = useState([
-    'Post muito bacana hein!'
-  ])
+  const [comments, setComments] = useState(['POST BACANA'])
 
   const [newCommentText, setNewcommentText] = useState('')
 
@@ -22,16 +20,21 @@ export function Post({ author, publishedAt, content }) {
 
   function handleCreateNewComment() {
     event.preventDefault()
-    setComments([...comments, newCommentText])
-    setNewcommentText('')
+
+    setComments([...comments, newCommentText]);
+
+    setNewcommentText('');
   }
 
   function handleNewCommentChange() {
     setNewcommentText(event.target.value)
   }
 
-  function deleteComment(comment) {
-    setComments
+  function deleteComment(commentToDelete) {
+    const commentsWithoutDeletedOne = comments.filter(comment => {
+      return comment !== commentToDelete;
+    })
+    setComments(commentsWithoutDeletedOne);
   }
 
   return (

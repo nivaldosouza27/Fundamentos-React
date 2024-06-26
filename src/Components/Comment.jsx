@@ -4,9 +4,8 @@ import { ThumbsUp, Trash } from 'phosphor-react';
 
 export function Comment({content, onDeleteComment}) {
      function handleDeleteComment() {
-        onDeleteComment(content);
+        onDeleteComment(onDeleteComment);
     }
-
     return (
         <div className={styles.comment}>
             <Avatar hasBorder={false} src="http://github.com/nivaldosouza27.png" alt="" />
